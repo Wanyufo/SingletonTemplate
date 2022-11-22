@@ -8,7 +8,7 @@ namespace IXRE.Scripts.Singleton
 {
     public class GM : MonoBehaviour
     {
-        public TagManager tagManager;
+       [NonSerialized] public TagManager TagManager;
 
 
         /// <summary>
@@ -16,6 +16,7 @@ namespace IXRE.Scripts.Singleton
         /// </summary>
         private void GmAwake()
         {
+            
         }
 
 
@@ -25,7 +26,7 @@ namespace IXRE.Scripts.Singleton
         /// </summary>
         private void GatherManagers()
         {
-            tagManager = FindObjectOfType<TagManager>();
+            TagManager = FindObjectOfType<TagManager>();
         }
 
         //############## SINGLETON INITIALISATION ###################
