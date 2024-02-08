@@ -27,10 +27,17 @@ namespace GameMaster
         /// </summary>
         private void GatherManagers()
         {
-            TagManager = FindObjectOfType<TagManager>();
-            AudioManager = FindObjectOfType<AudioManager>();
-            DebugManager = FindObjectOfType<DebugManager>();
-           
+            try
+            {
+                TagManager = FindObjectOfType<TagManager>();
+                AudioManager = FindObjectOfType<AudioManager>();
+                DebugManager = FindObjectOfType<DebugManager>();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error in GM GatherManagers: " + e.Message + "\n" + e.StackTrace);
+                throw;
+            }
         }
 
         // ############## SINGLETON INITIALISATION ###################
