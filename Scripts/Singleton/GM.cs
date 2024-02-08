@@ -1,35 +1,39 @@
 using System;
-using System.Collections.Generic;
-using IXRE.Scripts.Managers;
-using IXRE.Scripts.Tags;
 using UnityEngine;
 
-namespace IXRE.Scripts.Singleton
+namespace GameMaster
 {
+    /// <summary>
+    ///     Singleton Game Master, handles access to Managers
+    /// </summary>
     public class GM : MonoBehaviour
     {
-       [NonSerialized] public TagManager TagManager;
-
+        [NonSerialized] public AudioManager AudioManager;
+        [NonSerialized] public DebugManager DebugManager;
+        [NonSerialized] public TagManager TagManager;
+        
 
         /// <summary>
-        /// Local Awake Function, Same as MonoBehaviour Awake, but is only called on the unique Singleton
+        ///     Local Awake Function, Same as MonoBehaviour Awake, but is only called on the unique Singleton
         /// </summary>
         private void GmAwake()
         {
-            
         }
 
 
         /// <summary>
-        /// Find all Managers and fill the Manager references
-        /// Needs to be Updated Manually when new Manager Types are added
+        ///     Find all Managers and fill the Manager references
+        ///     Needs to be Updated Manually when new Manager Types are added
         /// </summary>
         private void GatherManagers()
         {
             TagManager = FindObjectOfType<TagManager>();
+            AudioManager = FindObjectOfType<AudioManager>();
+            DebugManager = FindObjectOfType<DebugManager>();
+           
         }
 
-        //############## SINGLETON INITIALISATION ###################
+        // ############## SINGLETON INITIALISATION ###################
         public static GM I { get; private set; }
 
         private void Awake()
@@ -44,7 +48,6 @@ namespace IXRE.Scripts.Singleton
             {
                 Destroy(this);
                 Debug.LogError("A second GM existed, has been destroyed");
-                return;
             }
         }
     }

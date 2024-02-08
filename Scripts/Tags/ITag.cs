@@ -1,7 +1,6 @@
 ﻿using System;
-using UnityEngine;
 
-namespace IXRE.Scripts.Singleton
+namespace GameMaster
 {
     public interface ITag
     {

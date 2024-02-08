@@ -1,26 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using IXRE.Scripts.Singleton;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace IXRE.Scripts.Managers
+namespace GameMaster.Tag
 {
+    /// <summary>
+    ///     Custom Tag Manager because the existing Unity tag system does not meet the requirements. Together with the tagger
+    ///     script, this turns any Enum into tags
+    /// </summary>
     public class TagManager : MonoBehaviour, IManager
     {
+        // #####=== Tag Enums ===#####
         /// <summary>
-        /// Dictionary of all List for each TagType
+        ///     Specific type of tag.
         /// </summary>
-        private Dictionary<string, List<ITag>> Tags { get; } = new Dictionary<string, List<ITag>>();
+        public enum SingleTag
+        {
+            SwordProximity,
+            SwordBlade,
+            FoodNinja,
+            BalloonPopper,
+            Player,
+            ButtonTrigger
+        }
+
+
+        // #####=== Do not touch below this ===#####
+
+        /// <summary>
+        ///     Dictionary of all List for each TagType
+        /// </summary>
+        private Dictionary<string, List<ITag>> Tags { get; } = new();
 
         public void RegisterTag<TEnum>(TEnum smartTag, ITag iTag) where TEnum : Enum
         {
-            string tagGroup = typeof(TEnum).ToString();
-            if (!Tags.ContainsKey(tagGroup))
-            {
-                Tags.Add(tagGroup, new List<ITag>());
-            }
+            var tagGroup = typeof(TEnum).ToString();
+            if (!Tags.ContainsKey(tagGroup)) Tags.Add(tagGroup, new List<ITag>());
 
             Tags[tagGroup].Add(iTag);
         }
@@ -30,38 +46,8 @@ namespace IXRE.Scripts.Managers
             Tags[typeof(TEnum).ToString()].Remove(iTag);
         }
 
-        // ##### Start of Tag Edit Area #####
-        // For Instructions on how to add new Tags or TagGroups, please see the TagInstructions.txt
 
-
-        /// <summary>
-        /// Must Contain all the Names of TagGroups
-        /// Must be Updated Manually
-        /// </summary>
-        // public enum TagGroup
-        // {
-        //     PlaceableObjectTag,
-        //     ShaderTag
-        // }
-
-        // ### Tag Group Enums ###
-        public enum PlaceableObjectTag
-        {
-            Area1,
-            Area2,
-            Area3,
-            Area4,
-            Area5,
-        }
-
-        public enum ShaderTag
-        {
-            Toon,
-            Standard,
-        }
-
-
-        // ##### End of Tag Edit Area #####
+        #region TagMethods
 
         // ##### Tag Related Methods #####
 
@@ -69,19 +55,19 @@ namespace IXRE.Scripts.Managers
         // returns an empty list if none are registered
 
         /// <summary>
-        /// Get All References to objects that are tagged with a Tag of the same Type as the given smartTag
+        ///     Get All References to objects that are tagged with a Tag of the same Type as the given smartTag
         /// </summary>
         /// <param name="smartTag">A Tag that is defined as an Enum</param>
         /// <typeparam name="TEnum">Type of the Tag</typeparam>
         /// <returns>A list of References to Tagged objects</returns>
         public List<ITag> GetObjectsWithTagType<TEnum>(TEnum smartTag) where TEnum : Enum
         {
-            string tagGroup = typeof(TEnum).ToString();
-            return Tags.ContainsKey(tagGroup) ? Tags[tagGroup] : new List<ITag>() { };
+            var tagGroup = typeof(TEnum).ToString();
+            return Tags.ContainsKey(tagGroup) ? Tags[tagGroup] : new List<ITag>();
         }
 
         /// <summary>
-        /// Get All References to objects that are tagged with the given smartTag
+        ///     Get All References to objects that are tagged with the given smartTag
         /// </summary>
         /// <param name="smartTag">A Tag that is defined as an Enum</param>
         /// <typeparam name="TEnum">Type of the Tag</typeparam>
@@ -92,7 +78,7 @@ namespace IXRE.Scripts.Managers
         }
 
         /// <summary>
-        /// Get a single Reference to an object that is tagged with the given smartTag
+        ///     Get a single Reference to an object that is tagged with the given smartTag
         /// </summary>
         /// <param name="smartTag">A Tag that is defined as an Enum</param>
         /// <typeparam name="TEnum">Type of the Tag</typeparam>
@@ -102,30 +88,38 @@ namespace IXRE.Scripts.Managers
             return GetObjectsWithTagType(smartTag).Find(iTag => iTag.GetTag().Equals(smartTag));
         }
 
-        
-        
-        // do i need a compareTag? it's just comparing enums...
 
-
-        private void Start()
+        /// <summary>
+        ///     Get a List of all tags that two objects have in common.
+        /// </summary>
+        /// <param name="o1">First Object</param>
+        /// <param name="o2">Second Object</param>
+        /// <returns>List of all Tags that appear on both Objects</returns>
+        public List<Enum> GetCommonTags(GameObject o1, GameObject o2)
         {
+            var o1Tags = o1.GetComponents<ITag>();
+            var o2Tags = o2.GetComponents<ITag>();
+            var matchingTags = new List<Enum>();
+            foreach (var o1Tag in o1Tags)
+            foreach (var o2Tag in o2Tags)
+                if (o2Tag.Equals(o1Tag))
+                    matchingTags.Add(o2Tag.GetTag());
+
+            return matchingTags;
         }
 
+        /// <summary>
+        ///     Evaluate if the given Object is tagged with tag
+        /// </summary>
+        /// <param name="o">Object to check on for tag</param>
+        /// <param name="smartTag">Tag to check for on o </param>
+        /// <typeparam name="TEnum">Enum Tag Type</typeparam>
+        /// <returns>true if there is an ITag on o that has tag selected as tag</returns>
+        public bool CompareTag<TEnum>(GameObject o, TEnum smartTag) where TEnum : Enum
+        {
+            return o.GetComponents<ITag>().Any(oTag => oTag.GetTag().Equals(smartTag));
+        }
 
-        // /// <summary>
-        // /// Adds a List to the Dictionary for each TagGroup in enum: TagGroups
-        // /// </summary>
-        // private void Awake()
-        // {
-        //     string foundTagGroups = "";
-        //
-        //     foreach (TagGroup tagType in Enum.GetValues(typeof(TagGroup)))
-        //     {
-        //         Tags[tagType] = new List<ITag>();
-        //         foundTagGroups += tagType + "\n";
-        //     }
-        //
-        //     Debug.Log("Found the following TagGroups\n" + foundTagGroups);
-        // }
+        #endregion
     }
 }

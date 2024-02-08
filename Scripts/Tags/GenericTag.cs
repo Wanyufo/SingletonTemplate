@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using IXRE.Scripts.Singleton;
-using UnityEditor;
-using UnityEngine;
-
-namespace IXRE.Scripts.Tags
+namespace GameMaster.Tag
 {
-    
     // 
     // This Tag Script is not meant for use, but rather as copy-paste source for new Tag Groups
     // This Script type is also called a Tagger.
     // For Instructions on how to add new Tags or TagGroups, please see the TagInstructions.txt
     // 
-    
-    
+
+
     // public class GenericTag : MonoBehaviour, ITag
     // {
     //     [SerializeField] public TagManager.GenericTag smartTag;
