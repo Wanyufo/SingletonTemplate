@@ -1,4 +1,4 @@
-namespace GameMaster.Tag
+namespace GameMaster
 {
     // 
     // This Tag Script is not meant for use, but rather as copy-paste source for new Tag Groups

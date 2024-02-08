@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameMaster.Tag
+namespace GameMaster
 {
     public class SimpleTag : MonoBehaviour, ITag
     {

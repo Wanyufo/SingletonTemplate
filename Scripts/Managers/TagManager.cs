@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace GameMaster.Tag
+namespace GameMaster
 {
     /// <summary>
     ///     Custom Tag Manager because the existing Unity tag system does not meet the requirements. Together with the tagger
@@ -15,14 +15,11 @@ namespace GameMaster.Tag
         /// <summary>
         ///     Specific type of tag.
         /// </summary>
-        public enum SingleTag
+        public enum SimpleTag
         {
-            SwordProximity,
-            SwordBlade,
-            FoodNinja,
-            BalloonPopper,
-            Player,
-            ButtonTrigger
+            SimpleTag1,
+            SimpleTag2,
+            SimpleTag3
         }
 
 

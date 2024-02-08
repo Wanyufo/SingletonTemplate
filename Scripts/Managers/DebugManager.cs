@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameMaster.Debug
+namespace GameMaster
 {
     /// <summary>
     ///     Handles the activity of debug components and behaviours

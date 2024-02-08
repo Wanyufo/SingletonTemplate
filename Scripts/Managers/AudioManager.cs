@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameMaster.Audio
+namespace GameMaster
 {
     /// <summary>
     ///     Manages a pool of spatial and a single non-spatial sound source.
