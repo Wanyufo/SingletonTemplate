@@ -19,6 +19,10 @@ namespace GameMaster
         {
             _nonSpatialAudioSource = GetComponent<AudioSource>();
             _spatialAudioSourceCount = spatialAudioSourcePool.Length - 1;
+            if (_spatialAudioSourceCount <= 0)
+            {
+                Debug.LogError("AudioManager: No spatial audio sources in pool.");
+            }
         }
 
         public void PlayNonSpatial(AudioClip clip)

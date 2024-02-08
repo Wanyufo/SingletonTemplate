@@ -35,7 +35,7 @@ namespace GameMaster
             }
             catch (Exception e)
             {
-                Debug.LogError("Error in GM GatherManagers: " + e.Message + "\n" + e.StackTrace);
+                Debug.LogError("Error in GM GatherManagers: " + e.Message);
                 throw;
             }
         }
